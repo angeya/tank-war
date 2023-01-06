@@ -41,18 +41,23 @@ public class GamePanel extends JPanel {
 
     private final GameType gameType;
 
+    /**
+     * 按键状态 <keyCode, 是否被按下>
+     */
+    private static final Map<Integer, Boolean> KEY_STATUS_MAP = new HashMap<>();
+
     private Tank player1;
 
     private Tank player2;
 
-    private List<Tank> botList = new LinkedList<>();
+    private final List<Tank> botList = new LinkedList<>();
 
     private final Home home = new Home(367, 532);
 
     /**
      * 电脑坦克出生的3个横坐标位置
      */
-    private int[] botPositionXs = { 10, 367, 754 };
+    private final int[] botPositionXs = { 10, 367, 754 };
 
     /**
      * 上一次创建电脑坦克的时间
@@ -66,42 +71,52 @@ public class GamePanel extends JPanel {
     private BufferedImage mainImage;
     private Graphics2D graphics2D;
 
-    private static final int MAX_BOT_NUMBER = 10;
+    private static final int MAX_BOT_NUMBER = 20;
 
     private final List<Explosion> explosionList =  new LinkedList<>();
     
     /**
      * 剩余未出场的电脑坦克数量
      */
-    private int restBotNumber = 10;
+    private int restBotNumber = 6;
 
     /**
      * 按键监听器
      */
     private final KeyListener keyListener = new KeyAdapter() {
         @Override
-        public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_UP:
-                    player1.goUp();
-                    break;
-                case KeyEvent.VK_DOWN:
-                    player1.goDown();
-                    break;
-                case KeyEvent.VK_LEFT:
-                    player1.goLeft();
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    player1.goRight();
-                    break;
-                case KeyEvent.VK_A:
-                    player1.shot();
-                    break;
-                default:
+        public void keyTyped(KeyEvent e) {
+            Integer keyCode = e.getKeyCode();
+            if (KEY_STATUS_MAP.containsKey(keyCode)) {
+                KEY_STATUS_MAP.put(keyCode, Boolean.TRUE);
+            }
+        }
 
+        @Override
+        public void keyReleased(KeyEvent e) {
+            Integer keyCode = e.getKeyCode();
+            if (KEY_STATUS_MAP.containsKey(keyCode)) {
+                KEY_STATUS_MAP.put(keyCode, Boolean.FALSE);
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            Integer keyCode = e.getKeyCode();
+            if (KEY_STATUS_MAP.containsKey(keyCode)) {
+                KEY_STATUS_MAP.put(keyCode, Boolean.TRUE);
             }
         }
     };
+
+    // 添加按键状态
+    static {
+        KEY_STATUS_MAP.put(KeyEvent.VK_UP, Boolean.FALSE);
+        KEY_STATUS_MAP.put(KeyEvent.VK_DOWN, Boolean.FALSE);
+        KEY_STATUS_MAP.put(KeyEvent.VK_LEFT, Boolean.FALSE);
+        KEY_STATUS_MAP.put(KeyEvent.VK_RIGHT, Boolean.FALSE);
+        KEY_STATUS_MAP.put(KeyEvent.VK_A, Boolean.FALSE);
+    }
 
     /**
      * 游戏是否结束
@@ -147,6 +162,8 @@ public class GamePanel extends JPanel {
         // 填充一个覆盖整个图片的白色矩形
         graphics2D.fillRect(0, 0, mainImage.getWidth(), mainImage.getHeight());
         this.paintMap();
+        this.playerMove();
+        this.playerShot();
         this.removeDisposedBot();
         this.createBot();
         this.botMoveAndShot();
@@ -160,6 +177,28 @@ public class GamePanel extends JPanel {
         g.drawImage(mainImage, 0, 0, this);
     }
 
+    /**
+     * 玩家坦克根据按键状态进行移动
+     */
+    private void playerMove() {
+        if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_UP, Boolean.FALSE)) {
+            this.player1.goUp();
+        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_DOWN, Boolean.FALSE)) {
+            this.player1.goDown();
+        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_LEFT, Boolean.FALSE)) {
+            this.player1.goLeft();
+        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_RIGHT, Boolean.FALSE)) {
+            this.player1.goRight();
+        }
+    }
+    /**
+     * 玩家坦克根据按键状态射击
+     */
+    private void playerShot() {
+        if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_A, Boolean.FALSE)) {
+            this.player1.shot();
+        }
+    }
     /**
      * 游戏是否结束
      * @return 是否结束
