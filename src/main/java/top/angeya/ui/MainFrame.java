@@ -1,6 +1,8 @@
 package top.angeya.ui;
 
+import top.angeya.Main;
 import top.angeya.constant.Const;
+import top.angeya.util.Music;
 
 import javax.swing.*;
 import java.awt.*;

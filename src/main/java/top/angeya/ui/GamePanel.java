@@ -11,6 +11,7 @@ import top.angeya.model.tank.Player1;
 import top.angeya.model.tank.Tank;
 import top.angeya.model.wall.Wall;
 import top.angeya.util.MapUtil;
+import top.angeya.util.Music;
 import top.angeya.util.ThreadPool;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class GamePanel extends JPanel {
     private static final Logger LOGGER = LoggerFactory.getLogger(GamePanel.class);
 
     /**
-     * 帧率
+     * 刷新时间
      */
     public static final int FPS = 20;
 
@@ -152,6 +153,7 @@ public class GamePanel extends JPanel {
         this.mainImage = new BufferedImage(794, 572, BufferedImage.TYPE_INT_BGR);
         // 获取主图片绘图对象
         this.graphics2D = this.mainImage.createGraphics();
+        Music.playStartMusic();
     }
 
 
@@ -204,7 +206,7 @@ public class GamePanel extends JPanel {
      * @return 是否结束
      */
     private boolean isGameFinish() {
-        boolean lose = !this.player1.isAlive() ||
+        boolean lose = !this.home.isAlive() || !this.player1.isAlive() ||
                 !this.player1.isAlive() && this.gameType == GameType.TWO_PLAYER && this.player2.isAlive();
         if (lose) {
             this.finish = true;

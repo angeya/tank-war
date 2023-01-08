@@ -8,6 +8,7 @@ import top.angeya.model.wall.BrickWall;
 import top.angeya.model.wall.Wall;
 import top.angeya.ui.GamePanel;
 import top.angeya.util.MapUtil;
+import top.angeya.util.Music;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -107,6 +108,7 @@ public class Bullet extends VisibleObject {
                 tank.dispose();
                 Explosion explosion = new Explosion(tank.getX(), tank.getY());
                 this.gamePanel.addExplosion(explosion);
+                Music.playExplosionMusic();
             }
         });
     }
