@@ -47,7 +47,7 @@ public class MapUtil {
         try {
             dataList = Files.readAllLines(path);
         } catch (IOException e) {
-            LOGGER.error("Load map failed, path is []", path, e);
+            LOGGER.error("Load map failed, path is {}", path, e);
             throw new RuntimeException(e);
         }
         return dataList;

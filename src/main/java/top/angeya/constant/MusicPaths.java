@@ -19,4 +19,10 @@ public class MusicPaths {
      * 爆炸
      */
     public static final String EXPLOSION = "music/explosion.wav";
+
+
+    /**
+     * 射击
+     */
+    public static final String SHOT = "music/shot.wav";
 }

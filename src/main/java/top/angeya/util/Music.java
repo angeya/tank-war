@@ -21,12 +21,18 @@ public class Music{
     private static Clip startMusic;
 
     /**
-     * 爆炸音乐
+     * 爆炸音效
      */
     private static Clip explosionMusic;
 
+    /**
+     * 射击音效
+     */
+    private static Clip shotMusic;
+
     static {
         File startMusicFile = new File(MusicPaths.START);
+        File shotMusicFile = new File(MusicPaths.SHOT);
         File explosionMusicFile = new File(MusicPaths.EXPLOSION);
         try {
             AudioInputStream startMusicStream = AudioSystem.getAudioInputStream(startMusicFile);
@@ -36,6 +42,10 @@ public class Music{
             AudioInputStream explosionMusicStream = AudioSystem.getAudioInputStream(explosionMusicFile);
             explosionMusic = AudioSystem.getClip();
             explosionMusic.open(explosionMusicStream);
+
+            AudioInputStream shotMusicStream = AudioSystem.getAudioInputStream(shotMusicFile);
+            shotMusic = AudioSystem.getClip();
+            shotMusic.open(shotMusicStream);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,5 +65,13 @@ public class Music{
     public static void playExplosionMusic(){
         explosionMusic.start();
         explosionMusic.setFramePosition(0);
+    }
+
+    /**
+     * 播放射击音乐
+     */
+    public static void playShotMusic(){
+        shotMusic.start();
+        shotMusic.setFramePosition(0);
     }
 }

@@ -7,6 +7,7 @@ import top.angeya.model.VisibleObject;
 import top.angeya.model.wall.GrassWall;
 import top.angeya.model.wall.Wall;
 import top.angeya.ui.GamePanel;
+import top.angeya.util.Music;
 import top.angeya.util.ThreadPool;
 import top.angeya.util.Tools;
 import java.awt.*;
@@ -194,6 +195,9 @@ public abstract class Tank extends VisibleObject implements Movable {
             Bullet bullet = new Bullet(point.x - Bullet.LENGTH / 2, point.y - Bullet.LENGTH / 2,
                     direction, gamePanel, this);
             this.bulletList.add(bullet);
+            if (this instanceof Player1 || this instanceof Player2) {
+                Music.playShotMusic();
+            }
             // 射击冷却
             Runnable shotCdTask = () -> {
                 try {

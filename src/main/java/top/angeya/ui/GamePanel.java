@@ -141,7 +141,7 @@ public class GamePanel extends JPanel {
                 }
             }
         });
-    };
+    }
 
     /**
      * 初始化
@@ -163,7 +163,6 @@ public class GamePanel extends JPanel {
         graphics2D.setColor(Color.WHITE);
         // 填充一个覆盖整个图片的白色矩形
         graphics2D.fillRect(0, 0, mainImage.getWidth(), mainImage.getHeight());
-        this.paintMap();
         this.playerMove();
         this.playerShot();
         this.removeDisposedBot();
@@ -171,6 +170,8 @@ public class GamePanel extends JPanel {
         this.botMoveAndShot();
         this.paintTankAndBullet();
         this.paintExplosion();
+        //
+        this.paintMap();
         if (this.isGameFinish()) {
             this.container.removeKeyListener(keyListener);
             return;
