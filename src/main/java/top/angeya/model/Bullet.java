@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import top.angeya.enums.Direction;
 import top.angeya.model.tank.Tank;
 import top.angeya.model.wall.BrickWall;
+import top.angeya.model.wall.GrassWall;
+import top.angeya.model.wall.RiverWall;
 import top.angeya.model.wall.Wall;
 import top.angeya.ui.GamePanel;
 import top.angeya.util.Music;
@@ -121,6 +123,10 @@ public class Bullet extends VisibleObject {
         Iterator<Wall> wallIterator = wallList.iterator();
         while (wallIterator.hasNext()) {
             Wall wall = wallIterator.next();
+            // 子弹可以穿越草地和河流
+            if (wall instanceof GrassWall || wall instanceof RiverWall) {
+                continue;
+            }
             boolean hit = bulletBoundary.intersects(wall.getBoundary());
             if (hit) {
                 this.dispose();
