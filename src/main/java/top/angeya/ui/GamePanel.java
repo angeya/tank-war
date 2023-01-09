@@ -20,8 +20,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * @author: Angeya
@@ -85,28 +85,23 @@ public class GamePanel extends JPanel {
      * 按键监听器
      */
     private final KeyListener keyListener = new KeyAdapter() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-            Integer keyCode = e.getKeyCode();
-            if (KEY_STATUS_MAP.containsKey(keyCode)) {
-                KEY_STATUS_MAP.put(keyCode, Boolean.TRUE);
-            }
-        }
 
-        @Override
-        public void keyReleased(KeyEvent e) {
-            Integer keyCode = e.getKeyCode();
-            if (KEY_STATUS_MAP.containsKey(keyCode)) {
-                KEY_STATUS_MAP.put(keyCode, Boolean.FALSE);
-            }
-        }
-
+        /**
+         * 按键按下事件
+         * @param e 事件
+         */
         @Override
         public void keyPressed(KeyEvent e) {
-            Integer keyCode = e.getKeyCode();
-            if (KEY_STATUS_MAP.containsKey(keyCode)) {
-                KEY_STATUS_MAP.put(keyCode, Boolean.TRUE);
-            }
+            KEY_STATUS_MAP.computeIfPresent(e.getKeyCode(), (k, v) -> true);
+        }
+
+        /**
+         * 按键释放事件
+         * @param e 事件
+         */
+        @Override
+        public void keyReleased(KeyEvent e) {
+            KEY_STATUS_MAP.computeIfPresent(e.getKeyCode(), (k, v) -> false);
         }
     };
 
@@ -137,7 +132,8 @@ public class GamePanel extends JPanel {
                 try {
                     Thread.sleep(FPS);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.error("Sleep exception", e);
+                    Thread.currentThread().interrupt();
                 }
             }
         });
@@ -170,7 +166,7 @@ public class GamePanel extends JPanel {
         this.botMoveAndShot();
         this.paintTankAndBullet();
         this.paintExplosion();
-        //
+        // 地图最后绘制，草地才能遮盖坦克
         this.paintMap();
         if (this.isGameFinish()) {
             this.container.removeKeyListener(keyListener);
@@ -184,13 +180,13 @@ public class GamePanel extends JPanel {
      * 玩家坦克根据按键状态进行移动
      */
     private void playerMove() {
-        if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_UP, Boolean.FALSE)) {
+        if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_UP, false)) {
             this.player1.goUp();
-        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_DOWN, Boolean.FALSE)) {
+        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_DOWN, false)) {
             this.player1.goDown();
-        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_LEFT, Boolean.FALSE)) {
+        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_LEFT, false)) {
             this.player1.goLeft();
-        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_RIGHT, Boolean.FALSE)) {
+        } else if (KEY_STATUS_MAP.getOrDefault(KeyEvent.VK_RIGHT, false)) {
             this.player1.goRight();
         }
     }
@@ -364,7 +360,7 @@ public class GamePanel extends JPanel {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                LOGGER.error("Sleep exception", e);
             }
             container.setPanel(new LevelPanel(container, gameType, nextLevel));
         });

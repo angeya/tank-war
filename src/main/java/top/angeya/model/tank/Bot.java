@@ -3,6 +3,7 @@ package top.angeya.model.tank;
 import top.angeya.constant.ImagePaths;
 import top.angeya.enums.Direction;
 import top.angeya.ui.GamePanel;
+
 import java.util.Random;
 
 /**
@@ -13,7 +14,7 @@ public class Bot extends Tank{
 
     private final Random random = new Random();
 
-    private static final int freshTime = GamePanel.FPS;
+    private static final int FRESH_TIME = GamePanel.FPS;
 
     private int moveTime = 0;
 
@@ -32,7 +33,7 @@ public class Bot extends Tank{
             moveTime = 0;
         } else {
             // 计时器按照刷新时间递增
-            moveTime += freshTime;
+            moveTime += FRESH_TIME;
         }
 
         // 判断移动方向

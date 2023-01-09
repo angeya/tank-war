@@ -9,6 +9,9 @@ import java.util.concurrent.*;
  **/
 public class ThreadPool {
 
+    private ThreadPool() {
+    }
+
     /**
      * 恶汉单例
      */

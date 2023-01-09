@@ -7,7 +7,6 @@ import top.angeya.model.tank.Tank;
 import top.angeya.model.wall.BrickWall;
 import top.angeya.model.wall.Wall;
 import top.angeya.ui.GamePanel;
-import top.angeya.util.MapUtil;
 import top.angeya.util.Music;
 
 import java.awt.*;
@@ -20,7 +19,7 @@ import java.util.List;
  **/
 public class Bullet extends VisibleObject {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MapUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Bullet.class);
 
     /**
      * 子弹边长
@@ -44,7 +43,7 @@ public class Bullet extends VisibleObject {
     /**
      * 子弹颜色.橙色
      */
-    private final Color color = Color.ORANGE;
+    private static final Color COLOR = Color.ORANGE;
 
     public Bullet(int x, int y, Direction direction, GamePanel gamePanel, Tank owner) {
         super(x, y, LENGTH, LENGTH);
@@ -63,7 +62,7 @@ public class Bullet extends VisibleObject {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, LENGTH, LENGTH);
         // 使用子弹颜色,绘制一个铺满整个图片的实心圆形
-        g.setColor(this.color);
+        g.setColor(COLOR);
         g.fillOval(0, 0, LENGTH, LENGTH);
         // 使用黑色，给圆形绘制一个黑色的边框，防止绘出界，宽高减小1像素
         g.setColor(Color.BLACK);

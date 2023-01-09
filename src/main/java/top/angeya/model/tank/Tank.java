@@ -10,6 +10,7 @@ import top.angeya.ui.GamePanel;
 import top.angeya.util.Music;
 import top.angeya.util.ThreadPool;
 import top.angeya.util.Tools;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

@@ -48,12 +48,11 @@ public class Tools {
      * @return BufferedImage对象
      */
     public static BufferedImage loadImage(String path) {
-        BufferedImage image;
+        BufferedImage image = null;
         try {
             image = ImageIO.read(new File(path));
         } catch (IOException e) {
             LOGGER.error("Load image failed, path is {}", path, e);
-            throw new RuntimeException();
         }
         return image;
     }

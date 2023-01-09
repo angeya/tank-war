@@ -2,6 +2,7 @@ package top.angeya.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,7 +35,7 @@ public abstract class VisibleObject {
     /**
      * 给定宽高，图像通过绘画得到
      */
-    public VisibleObject(int x, int y, int width, int height) {
+    protected VisibleObject(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -46,14 +47,13 @@ public abstract class VisibleObject {
     /**
      * 通过路径加载图像，自动计算宽高
      */
-    public VisibleObject(int x, int y, String imagePath) {
+    protected VisibleObject(int x, int y, String imagePath) {
         this.x = x;
         this.y = y;
         try {
             this.image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
-            LOGGER.error("Load image failed, path is {}", imagePath);
-            throw new RuntimeException(e);
+            LOGGER.error("Load image failed, path is {}", imagePath, e);
         }
         this.width = image.getWidth();
         this.height = image.getHeight();

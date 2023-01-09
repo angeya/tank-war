@@ -2,10 +2,10 @@ package top.angeya.util;
 
 import top.angeya.constant.MusicPaths;
 
-import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import java.io.File;
 
 /**
  * 音乐工具类
